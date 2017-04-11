@@ -1,16 +1,19 @@
 'use strict';
 
-describe('Feature Test:', function(){
-  var plane;
+describe('Airport', function(){
   var airport;
-
+  var plane;
   beforeEach(function(){
-    plane = new Plane();
     airport = new Airport();
+    plane = jasmine.createSpy('plane', ['land']);
+    //Airport.prototype.clearForLanding = function(plane){
+    //};
   });
-
-  it('planes can be instructed to land at an airport', function(){
-    plane.land(airport);
-    expect(airport.planes()).toContain(plane);
+  it('has no planes by default', function(){
+    expect(airport.planes()).toEqual([]);
+  });
+  it('can clear planes for landing', function(){
+    airport.clearForLanding(plane);
+    expect(airport.planes()).toEqual([plane]);
   });
 });
