@@ -10,7 +10,8 @@ describe('Feature Test:', function(){
   });
 
   it('instructs plane to land at airport', function(){
-    plane.land(airport);
+    plane.land();
+    airport.clearForLanding(plane)
     expect(airport.planes()).toContain(plane);
   });
 
@@ -20,4 +21,11 @@ describe('Feature Test:', function(){
     expect(airport.planes()).not.toContain(plane);
   });
 
+  it('blocks takeoff when weather is stormy', function(){
+    airport.clearForLanding(plane)
+    plane.land()
+    spyOn(airport, 'isStormy').and.returnValue(true);
+    expect(function(){airport.clearForTakeoff();}).toThrowError('cannot takeoff during storm');
+    expect(airport.planes()).toContain(plane);
+  });
 });
